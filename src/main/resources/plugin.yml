@@ -1,0 +1,61 @@
+name: AutoLevelsUP
+version: '1.0'
+main: com.Lino.autoLevelsUP.AutoLevelsUP
+api-version: '1.21'
+# Soft dependencies (optional)
+softdepend:
+  - LuckPerms
+  - Vault
+
+# Commands
+commands:
+  autolevelsup:
+    description: Main AutoLevelsUP command
+    usage: /<command> [reload|remind|check|set|reset|info|debug]
+    aliases: [alu, levelup, levels]
+    permission: autolevelsup.use
+
+# Permissions
+permissions:
+  autolevelsup.*:
+    description: Full access to AutoLevelsUP
+    children:
+      autolevelsup.use: true
+      autolevelsup.reload: true
+      autolevelsup.check: true
+      autolevelsup.set: true
+      autolevelsup.reset: true
+      autolevelsup.debug: true
+    default: op
+
+  autolevelsup.use:
+    description: Basic permission to use the plugin
+    default: true
+
+  autolevelsup.remind:
+    description: Permission to see remaining time
+    default: true
+
+  autolevelsup.check:
+    description: Permission to check statistics
+    default: op
+
+  autolevelsup.check.others:
+    description: Permission to check other players' statistics
+    default: op
+
+  autolevelsup.set:
+    description: Permission to modify rank and time
+    default: op
+
+  autolevelsup.reset:
+    description: Permission to reset player data
+    default: op
+
+  autolevelsup.reload:
+    description: Permission to reload configuration
+    default: op
+
+  autolevelsup.debug:
+    description: Permission to toggle debug mode
+    default: op

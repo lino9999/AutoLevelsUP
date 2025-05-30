@@ -1,0 +1,247 @@
+# ================================
+# AutoLevelsUP - Configuration
+# ================================
+
+# General settings
+settings:
+  # Plugin message prefix
+  prefix: "§8[§6AutoLevelsUP§8] §r"
+
+  # Data save interval (in seconds)
+  saveInterval: 300
+
+  # Debug mode (shows additional information in logs)
+  debug: false
+
+  # Automatically check rankups on login
+  checkOnJoin: true
+
+# Database configuration
+database:
+  # Enable database storage (if false, uses YAML file)
+  enabled: false
+
+  # Database type: "mysql" or "sqlite"
+  type: "sqlite"
+
+  # Table name for storing player data
+  table: "autolevelsup_data"
+
+  # MySQL settings (only used if type is "mysql")
+  mysql:
+    host: "localhost"
+    port: 3306
+    database: "minecraft"
+    username: "user"
+    password: "password"
+
+# UI and effects configuration
+ui:
+  # ActionBar with progress bar
+  actionbar:
+    # Enable ActionBar
+    enabled: true
+
+    # Message for normal progress
+    progress: "§7Level §e%current_rank% §7→ §e%next_rank% §7| %progress_bar% §7| §e%remaining%"
+
+    # Message when max level is reached
+    maxLevel: "§a§l✓ MAX LEVEL REACHED! §7| §eTotal time: %total_time%"
+
+    # Progress bar configuration
+    progressBar:
+      filledChar: "█"
+      emptyChar: "░"
+      filledColor: "§a"
+      emptyColor: "§7"
+
+  # Title when leveling up
+  title:
+    # Enable title
+    enabled: true
+
+    # Main title
+    main: "§6§lLEVEL %rank%!"
+
+    # Subtitle
+    sub: "§eCongratulations %player%!"
+
+    # Timing (in ticks)
+    fadeIn: 10
+    stay: 70
+    fadeOut: 20
+
+  # Sound when leveling up
+  sound:
+    # Enable sounds
+    enabled: true
+
+    # Sound type (Bukkit Sound enum name)
+    levelUpSound: "ENTITY_PLAYER_LEVELUP"
+
+    # Volume (0.0 - 2.0)
+    volume: 1.0
+
+    # Pitch (0.5 - 2.0)
+    pitch: 1.0
+
+# Dynamic levels configuration
+dynamicLevels:
+  # Total number of levels
+  count: 10
+
+  # Base time for first level (in seconds)
+  # 3600 = 1 hour
+  baseTime: 3600
+
+  # Time increment for each subsequent level (in seconds)
+  # 1800 = 30 minutes
+  timeIncrement: 1800
+
+  # Default commands executed for each level
+  # Will be executed from console
+  commands:
+    - "lp user %player% parent add rank%rank%"
+    - "broadcast §a%player% reached level %rank%!"
+    - "eco give %player% 1000"
+
+  # Level-specific configurations (optional)
+  # Override default commands for specified level
+  levels:
+    1:
+      commands:
+        - "lp user %player% parent add newbie"
+        - "broadcast §e%player% is now a Newbie!"
+        - "eco give %player% 500"
+    5:
+      commands:
+        - "lp user %player% parent add veteran"
+        - "broadcast §b%player% became a Veteran!"
+        - "eco give %player% 5000"
+        - "kit give %player% veteran"
+    10:
+      commands:
+        - "lp user %player% parent add master"
+        - "broadcast §d%player% reached MASTER level!"
+        - "eco give %player% 20000"
+        - "kit give %player% master"
+        - "tp %player% spawn_vip"
+
+# Plugin messages
+message:
+  # Message when a player levels up
+  rankup: "§a§l✓ Congratulations %player%! You reached level %rank%!"
+
+  # Template for /autolevelsup remind command
+  template: "§7▸ Current level: §e%current_rank%§7 | Next level in: §e%time_remaining% §7(§e%progress%§7)"
+
+  # Message when max level is reached
+  maxLevel: "§a§l✓ Congratulations! You reached the maximum level!"
+
+  # Error messages
+  error:
+    noPermission: "§cYou don't have permission to execute this command."
+    playerNotFound: "§cPlayer not found or not online."
+    invalidNumber: "§cInvalid numeric value."
+    configError: "§cError in plugin configuration."
+
+# Advanced settings
+advanced:
+  # Use precise playtime (milliseconds) instead of minutes
+  preciseTime: true
+
+  # Maximum number of consecutive rankups per check
+  maxRankupsPerCheck: 3
+
+  # Save data when a player leaves the server
+  saveOnQuit: true
+
+  # Check rankups for offline players too (not recommended)
+  checkOfflinePlayers: false
+
+# Random rewards system
+rewards:
+  # Enable random rewards system
+  enabled: true
+
+  # Chance to receive extra reward (0.0-1.0)
+  chance: 0.3
+
+  # Random rewards that can be given
+  randomRewards:
+    - "eco give %player% 100"
+    - "give %player% diamond 1"
+    - "give %player% emerald 3"
+    - "xp give %player% 100"500"
+    5:
+      commands:
+        - "lp user %player% parent add veteran"
+        - "broadcast §b%player% became a Veteran!"
+        - "eco give %player% 5000"
+        - "kit give %player% veteran"
+    10:
+      commands:
+        - "lp user %player% parent add master"
+        - "broadcast §d%player% reached MASTER level!"
+        - "eco give %player% 20000"
+        - "kit give %player% master"
+        - "tp %player% spawn_vip"
+
+# Plugin messages
+message:
+  # Message when a player levels up
+  rankup: "§a§l✓ Congratulations %player%! You reached level %rank%!"
+
+  # Template for /autolevelsup remind command
+  template: "§7▸ Current level: §e%current_rank%§7 | Next level in: §e%time_remaining% §7(§e%progress%§7)"
+
+  # Welcome message (if enabled)
+  welcome: "§7Welcome §e%player%§7! You are at level §e%current_rank%§7. Time for next: §e%time_remaining%"
+
+  # Message when max level is reached
+  maxLevel: "§a§l✓ Congratulations! You reached the maximum level!"
+
+  # Error messages
+  error:
+    noPermission: "§cYou don't have permission to execute this command."
+    playerNotFound: "§cPlayer not found or not online."
+    invalidNumber: "§cInvalid numeric value."
+    configError: "§cError in plugin configuration."
+
+# Advanced settings
+advanced:
+  # Use precise playtime (milliseconds) instead of minutes
+  preciseTime: true
+
+  # Maximum number of consecutive rankups per check
+  maxRankupsPerCheck: 3
+
+  # Save data when a player leaves the server
+  saveOnQuit: true
+
+  # Check rankups for offline players too (not recommended)
+  checkOfflinePlayers: false
+
+# Random rewards system
+rewards:
+  # Enable random rewards system
+  enabled: true
+
+  # Chance to receive extra reward (0.0-1.0)
+  chance: 0.3
+
+  # Random rewards that can be given
+  randomRewards:
+    - "eco give %player% 100"
+    - "give %player% diamond 1"
+    - "give %player% emerald 3"
+    - "xp give %player% 100"
+
+  # Special rewards for milestones
+  milestones:
+    3:
+      - "give %player% iron_ingot 32"
+      - "broadcast §7%player% completed the first milestone!"
+    7:
+      - "give %player% diamond 5"
+      - "broadcast §7%player% reached an important milestone!"
