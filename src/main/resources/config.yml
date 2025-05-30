@@ -108,21 +108,21 @@ dynamicLevels:
   # Level-specific configurations (optional)
   # Override default commands for specified level
   levels:
-    1:
+    10:
       commands:
         - "lp user %player% meta addprefix %rank% &3Lv.&b&l%rank%&r"
-        - "broadcast §e%player% is now a Newbie!"
+        - "broadcast §e%player% is now level 10!"
         - "eco give %player% 500"
-    5:
+    50:
       commands:
         - "lp user %player% meta addprefix %rank% &3Lv.&b&l%rank%&r"
         - "broadcast §b%player% became a Veteran!"
         - "eco give %player% 5000"
         - "kit give %player% veteran"
-    10:
+    100:
       commands:
         - "lp user %player% meta addprefix %rank% &3Lv.&b&l%rank%&r"
-        - "broadcast §d%player% reached MASTER level!"
+        - "broadcast §d%player% reached 100 level!"
         - "eco give %player% 20000"
         - "kit give %player% master"
         - "tp %player% spawn_vip"
