@@ -88,20 +88,20 @@ ui:
 # Dynamic levels configuration
 dynamicLevels:
   # Total number of levels
-  count: 10
+  count: 10000
 
   # Base time for first level (in seconds)
   # 3600 = 1 hour
-  baseTime: 3600
+  baseTime: 300
 
   # Time increment for each subsequent level (in seconds)
   # 1800 = 30 minutes
-  timeIncrement: 1800
+  timeIncrement: 300
 
   # Default commands executed for each level
   # Will be executed from console
   commands:
-    - "lp user %player% parent add rank%rank%"
+    - "lp user %player% meta addprefix %rank% &3Lv.&b&l%rank%&r"
     - "broadcast §a%player% reached level %rank%!"
     - "eco give %player% 1000"
 
@@ -110,78 +110,18 @@ dynamicLevels:
   levels:
     1:
       commands:
-        - "lp user %player% parent add newbie"
+        - "lp user %player% meta addprefix %rank% &3Lv.&b&l%rank%&r"
         - "broadcast §e%player% is now a Newbie!"
         - "eco give %player% 500"
     5:
       commands:
-        - "lp user %player% parent add veteran"
+        - "lp user %player% meta addprefix %rank% &3Lv.&b&l%rank%&r"
         - "broadcast §b%player% became a Veteran!"
         - "eco give %player% 5000"
         - "kit give %player% veteran"
     10:
       commands:
-        - "lp user %player% parent add master"
-        - "broadcast §d%player% reached MASTER level!"
-        - "eco give %player% 20000"
-        - "kit give %player% master"
-        - "tp %player% spawn_vip"
-
-# Plugin messages
-message:
-  # Message when a player levels up
-  rankup: "§a§l✓ Congratulations %player%! You reached level %rank%!"
-
-  # Template for /autolevelsup remind command
-  template: "§7▸ Current level: §e%current_rank%§7 | Next level in: §e%time_remaining% §7(§e%progress%§7)"
-
-  # Message when max level is reached
-  maxLevel: "§a§l✓ Congratulations! You reached the maximum level!"
-
-  # Error messages
-  error:
-    noPermission: "§cYou don't have permission to execute this command."
-    playerNotFound: "§cPlayer not found or not online."
-    invalidNumber: "§cInvalid numeric value."
-    configError: "§cError in plugin configuration."
-
-# Advanced settings
-advanced:
-  # Use precise playtime (milliseconds) instead of minutes
-  preciseTime: true
-
-  # Maximum number of consecutive rankups per check
-  maxRankupsPerCheck: 3
-
-  # Save data when a player leaves the server
-  saveOnQuit: true
-
-  # Check rankups for offline players too (not recommended)
-  checkOfflinePlayers: false
-
-# Random rewards system
-rewards:
-  # Enable random rewards system
-  enabled: true
-
-  # Chance to receive extra reward (0.0-1.0)
-  chance: 0.3
-
-  # Random rewards that can be given
-  randomRewards:
-    - "eco give %player% 100"
-    - "give %player% diamond 1"
-    - "give %player% emerald 3"
-    - "xp give %player% 100"500"
-    5:
-      commands:
-        - "lp user %player% parent add veteran"
-        - "broadcast §b%player% became a Veteran!"
-        - "eco give %player% 5000"
-        - "kit give %player% veteran"
-    10:
-      commands:
-        - "lp user %player% parent add master"
+        - "lp user %player% meta addprefix %rank% &3Lv.&b&l%rank%&r"
         - "broadcast §d%player% reached MASTER level!"
         - "eco give %player% 20000"
         - "kit give %player% master"
