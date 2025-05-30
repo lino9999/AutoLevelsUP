@@ -19,10 +19,10 @@ settings:
 # Database configuration
 database:
   # Enable database storage (if false, uses YAML file)
-  enabled: false
+  enabled: true
 
   # Database type: "mysql" or "sqlite"
-  type: "sqlite"
+  type: "sqlite"  # SQLITE È GIÀ CONFIGURATO PER DATABASE LOCALE
 
   # Table name for storing player data
   table: "autolevelsup_data"
