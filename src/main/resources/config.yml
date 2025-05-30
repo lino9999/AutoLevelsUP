@@ -22,7 +22,7 @@ database:
   enabled: true
 
   # Database type: "mysql" or "sqlite"
-  type: "sqlite"  # SQLITE È GIÀ CONFIGURATO PER DATABASE LOCALE
+  type: "sqlite"
 
   # Table name for storing player data
   table: "autolevelsup_data"
