@@ -1,10 +1,10 @@
 package com.Lino.autoLevelsUP.managers;
 
 import com.Lino.autoLevelsUP.AutoLevelsUP;
+import com.Lino.autoLevelsUP.utils.ColorUtils; // Importa utils
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-
 import java.util.*;
 
 public class LevelManager {
@@ -29,7 +29,6 @@ public class LevelManager {
 
         for (int i = 1; i <= config.getLevelCount(); i++) {
             List<String> cmds = defaultCmds;
-            // Check specific level commands
             if (config.getConfig().contains("dynamicLevels.levels." + i + ".commands")) {
                 cmds = config.getStringList("dynamicLevels.levels." + i + ".commands");
             }
@@ -75,26 +74,39 @@ public class LevelManager {
                 if (!rewards.isEmpty()) {
                     String reward = rewards.get(new Random().nextInt(rewards.size()));
                     executeCommands(player, newRank, Collections.singletonList(reward));
-                    player.sendMessage(config.getPrefix() + "§eYou received a random reward!");
+                    player.sendMessage(config.getPrefix() + ColorUtils.process("&eYou received a random reward!"));
                 }
             }
         }
 
         // 4. Effects
         if (config.isTitleEnabled()) {
-            player.sendTitle("§6§lLEVEL " + newRank + "!", "§eCongratulations " + player.getName() + "!", 10, 70, 20);
+            String title = config.getConfig().getString("ui.title.main", "&6&lLEVEL %rank%!").replace("%rank%", String.valueOf(newRank)).replace("%player%", player.getName());
+            String sub = config.getConfig().getString("ui.title.sub", "&eCongratulations %player%!").replace("%rank%", String.valueOf(newRank)).replace("%player%", player.getName());
+            player.sendTitle(ColorUtils.process(title), ColorUtils.process(sub), 10, 70, 20);
         }
+
         if (config.isSoundEnabled()) {
             try {
-                player.playSound(player.getLocation(), Sound.valueOf(config.getLevelUpSound()), 1f, 1f);
+                // USA VOLUME E PITCH DAL CONFIG
+                player.playSound(player.getLocation(),
+                        Sound.valueOf(config.getLevelUpSound()),
+                        config.getSoundVolume(),
+                        config.getSoundPitch());
             } catch (Exception e) {
                 player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f);
             }
         }
 
-        // 5. Update
+        // 5. Update Data
         playerManager.setRank(player.getUniqueId(), newRank);
-        player.sendMessage(config.getConfig().getString("message.rankup", "Congratulations!").replace("%rank%", String.valueOf(newRank)));
+
+        // BUG FIX: Added .replace("%player%", player.getName())
+        String msg = config.getConfig().getString("message.rankup", "Congratulations!")
+                .replace("%player%", player.getName())
+                .replace("%rank%", String.valueOf(newRank));
+
+        player.sendMessage(ColorUtils.process(msg));
 
         // Re-check logic
         Bukkit.getScheduler().runTaskLater(plugin, () -> checkRankup(player), 20L);

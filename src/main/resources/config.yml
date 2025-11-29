@@ -2,38 +2,22 @@
 # AutoLevelsUP - Configuration
 # ================================
 
-# General settings
 settings:
   # Plugin message prefix
-  prefix: "§8[§6AutoLevelsUP§8] §r"
+  # Use <gradient:#HexStart:#HexEnd>Text</gradient> for gradients
+  prefix: "<gradient:#FFAA00:#FFFF55>[AutoLevelsUP]</gradient> &r"
 
-  # Data save interval (in seconds)
   saveInterval: 300
-
-  # Debug mode (shows additional information in console)
   debug: false
 
-  # Anti-AFK System
-  # Prevents players from gaining playtime while AFK
   antiAfk:
-    # Enable the system
     enabled: true
-    # Time in seconds before a player is considered AFK
-    # 300 seconds = 5 minutes
     timeout: 300
 
-# Database configuration
 database:
-  # Enable database storage (if false, uses local data.yml file)
   enabled: false
-
-  # Database type: "mysql" or "sqlite"
   type: "sqlite"
-
-  # Table name for storing player data
   table: "autolevelsup_data"
-
-  # MySQL settings (only used if type is "mysql")
   mysql:
     host: "localhost"
     port: 3306
@@ -41,103 +25,54 @@ database:
     username: "user"
     password: "password"
 
-# UI and effects configuration
 ui:
-  # Title when leveling up
   title:
-    # Enable title on screen
     enabled: true
-
-    # Main title text
-    main: "§6§lLEVEL %rank%!"
-
-    # Subtitle text
-    sub: "§eCongratulations %player%!"
-
-    # Timing (in ticks: 20 ticks = 1 second)
+    # Hex colors supported: &#RRGGBB
+    main: "&#FFD700&lLEVEL %rank%!"
+    sub: "&eCongratulations %player%!"
     fadeIn: 10
     stay: 70
     fadeOut: 20
 
-  # Sound when leveling up
   sound:
-    # Enable sound effect
     enabled: true
-
-    # Sound type (Bukkit Sound enum name)
-    # List: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
     levelUpSound: "ENTITY_PLAYER_LEVELUP"
+    # Volume: 1.0 is normal, 2.0 is louder/further distance
+    volume: 1.0
+    # Pitch: 0.5 to 2.0 (1.0 is normal speed)
+    pitch: 1.0
 
-# Dynamic levels configuration
 dynamicLevels:
-  # Total number of levels available
   count: 1000
-
-  # Base time for the first level (in seconds)
-  # 300 = 5 minutes
   baseTime: 300
-
-  # Time increment for each subsequent level (in seconds)
-  # Level 1 = 300s, Level 2 = 600s, Level 3 = 900s...
   timeIncrement: 300
 
-  # Default commands executed for each level up
-  # Placeholders: %player%, %rank%
   commands:
-    - "broadcast §a%player% reached level %rank%!"
+    - "broadcast &a%player% reached level %rank%!"
     - "eco give %player% 100"
 
-  # Level-specific configurations (Override defaults)
   levels:
     10:
       commands:
-        - "broadcast §e%player% is now level 10!"
+        - "broadcast &e%player% is now level 10!"
         - "eco give %player% 500"
-    50:
-      commands:
-        - "broadcast §b%player% became a Veteran (Level 50)!"
-        - "eco give %player% 5000"
-        - "give %player% diamond 5"
-    100:
-      commands:
-        - "broadcast §d%player% reached level 100!"
-        - "eco give %player% 20000"
-        - "give %player% netherite_ingot 1"
 
-# Rewards System
 rewards:
-  # Enable random rewards system
   enabled: true
-
-  # Chance to receive an extra random reward upon leveling up (0.0 - 1.0)
-  # 0.3 = 30% chance
   chance: 0.3
-
-  # List of possible random commands
   randomRewards:
     - "eco give %player% 50"
     - "give %player% diamond 1"
-    - "give %player% emerald 3"
-    - "xp give %player% 100"
-
-  # Milestone rewards (guaranteed rewards at specific levels)
-  # These run IN ADDITION to the standard level commands
   milestones:
     5:
-      - "give %player% iron_ingot 10"
-      - "msg %player% §7You reached a small milestone!"
-    25:
-      - "give %player% gold_ingot 10"
-      - "msg %player% §eQuarter of a century!"
+      - "msg %player% &7You reached a small milestone!"
 
-# Plugin messages (English)
 message:
-  # Message when a player levels up
-  rankup: "§a§l✓ Congratulations %player%! You reached level %rank%!"
+  # Example of Gradient usage
+  rankup: "<gradient:#00FF00:#00AA00>&l✓ Congratulations %player%! You reached level %rank%!</gradient>"
 
-  # Error messages
   error:
-    noPermission: "§cYou don't have permission to execute this command."
-    playerNotFound: "§cPlayer not found or not online."
-    invalidNumber: "§cInvalid numeric value."
-    configError: "§cError in plugin configuration."
+    noPermission: "&cYou don't have permission."
+    playerNotFound: "&cPlayer not found."
+    invalidNumber: "&cInvalid number."

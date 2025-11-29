@@ -1,8 +1,8 @@
 package com.Lino.autoLevelsUP.managers;
 
 import com.Lino.autoLevelsUP.AutoLevelsUP;
+import com.Lino.autoLevelsUP.utils.ColorUtils; // Importa utils
 import org.bukkit.configuration.ConfigurationSection;
-
 import java.util.List;
 import java.util.logging.Level;
 
@@ -21,6 +21,8 @@ public class ConfigManager {
     private boolean titleEnabled;
     private boolean soundEnabled;
     private String levelUpSound;
+    private float soundVolume; // NEW
+    private float soundPitch;  // NEW
 
     // Anti-AFK
     private boolean antiAfkEnabled;
@@ -45,7 +47,8 @@ public class ConfigManager {
 
             this.saveInterval = plugin.getConfig().getInt("settings.saveInterval", 300);
             this.debugMode = plugin.getConfig().getBoolean("settings.debug", false);
-            this.prefix = plugin.getConfig().getString("settings.prefix", "§8[§6AutoLevelsUP§8] §r");
+            // Applica colori al prefisso
+            this.prefix = ColorUtils.process(plugin.getConfig().getString("settings.prefix", "&8[&6AutoLevelsUP&8] &r"));
 
             this.antiAfkEnabled = plugin.getConfig().getBoolean("settings.antiAfk.enabled", true);
             this.antiAfkTimeout = plugin.getConfig().getInt("settings.antiAfk.timeout", 300);
@@ -53,6 +56,9 @@ public class ConfigManager {
             this.titleEnabled = plugin.getConfig().getBoolean("ui.title.enabled", true);
             this.soundEnabled = plugin.getConfig().getBoolean("ui.sound.enabled", true);
             this.levelUpSound = plugin.getConfig().getString("ui.sound.levelUpSound", "ENTITY_PLAYER_LEVELUP");
+            // Carica volume e pitch
+            this.soundVolume = (float) plugin.getConfig().getDouble("ui.sound.volume", 1.0);
+            this.soundPitch = (float) plugin.getConfig().getDouble("ui.sound.pitch", 1.0);
 
             return true;
         } catch (Exception e) {
@@ -73,8 +79,9 @@ public class ConfigManager {
     public boolean isTitleEnabled() { return titleEnabled; }
     public boolean isSoundEnabled() { return soundEnabled; }
     public String getLevelUpSound() { return levelUpSound; }
+    public float getSoundVolume() { return soundVolume; } // NEW
+    public float getSoundPitch() { return soundPitch; }   // NEW
 
-    // Helper to get raw config for rewards
     public ConfigurationSection getConfig() { return plugin.getConfig(); }
     public List<String> getStringList(String path) { return plugin.getConfig().getStringList(path); }
 }
