@@ -10,16 +10,22 @@ settings:
   # Data save interval (in seconds)
   saveInterval: 300
 
-  # Debug mode (shows additional information in logs)
+  # Debug mode (shows additional information in console)
   debug: false
 
-  # Automatically check rankups on login
-  checkOnJoin: true
+  # Anti-AFK System
+  # Prevents players from gaining playtime while AFK
+  antiAfk:
+    # Enable the system
+    enabled: true
+    # Time in seconds before a player is considered AFK
+    # 300 seconds = 5 minutes
+    timeout: 300
 
 # Database configuration
 database:
-  # Enable database storage (if false, uses YAML file)
-  enabled: true
+  # Enable database storage (if false, uses local data.yml file)
+  enabled: false
 
   # Database type: "mysql" or "sqlite"
   type: "sqlite"
@@ -37,109 +43,97 @@ database:
 
 # UI and effects configuration
 ui:
-  # ActionBar with progress bar
-  actionbar:
-    # Enable ActionBar
-    enabled: true
-
-    # Message for normal progress
-    progress: "§7Level §e%current_rank% §7→ §e%next_rank% §7| %progress_bar% §7| §e%remaining%"
-
-    # Message when max level is reached
-    maxLevel: "§a§l✓ MAX LEVEL REACHED! §7| §eTotal time: %total_time%"
-
-    # Progress bar configuration
-    progressBar:
-      filledChar: "█"
-      emptyChar: "░"
-      filledColor: "§a"
-      emptyColor: "§7"
-
   # Title when leveling up
   title:
-    # Enable title
+    # Enable title on screen
     enabled: true
 
-    # Main title
+    # Main title text
     main: "§6§lLEVEL %rank%!"
 
-    # Subtitle
+    # Subtitle text
     sub: "§eCongratulations %player%!"
 
-    # Timing (in ticks)
+    # Timing (in ticks: 20 ticks = 1 second)
     fadeIn: 10
     stay: 70
     fadeOut: 20
 
   # Sound when leveling up
   sound:
-    # Enable sounds
+    # Enable sound effect
     enabled: true
 
     # Sound type (Bukkit Sound enum name)
+    # List: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
     levelUpSound: "ENTITY_PLAYER_LEVELUP"
-
-    # Volume (0.0 - 2.0)
-    volume: 1.0
-
-    # Pitch (0.5 - 2.0)
-    pitch: 1.0
 
 # Dynamic levels configuration
 dynamicLevels:
-  # Total number of levels
-  count: 10000
+  # Total number of levels available
+  count: 1000
 
-  # Base time for first level (in seconds)
-  # 3600 = 1 hour
+  # Base time for the first level (in seconds)
+  # 300 = 5 minutes
   baseTime: 300
 
   # Time increment for each subsequent level (in seconds)
-  # 1800 = 30 minutes
+  # Level 1 = 300s, Level 2 = 600s, Level 3 = 900s...
   timeIncrement: 300
 
-  # Default commands executed for each level
-  # Will be executed from console
+  # Default commands executed for each level up
+  # Placeholders: %player%, %rank%
   commands:
-    - "lp user %player% meta addprefix %rank% &3Lv.&b&l%rank%&r"
     - "broadcast §a%player% reached level %rank%!"
-    - "eco give %player% 1000"
+    - "eco give %player% 100"
 
-  # Level-specific configurations (optional)
-  # Override default commands for specified level
+  # Level-specific configurations (Override defaults)
   levels:
     10:
       commands:
-        - "lp user %player% meta addprefix %rank% &3Lv.&b&l%rank%&r"
         - "broadcast §e%player% is now level 10!"
         - "eco give %player% 500"
     50:
       commands:
-        - "lp user %player% meta addprefix %rank% &3Lv.&b&l%rank%&r"
-        - "broadcast §b%player% became a Veteran!"
+        - "broadcast §b%player% became a Veteran (Level 50)!"
         - "eco give %player% 5000"
-        - "kit give %player% veteran"
+        - "give %player% diamond 5"
     100:
       commands:
-        - "lp user %player% meta addprefix %rank% &3Lv.&b&l%rank%&r"
-        - "broadcast §d%player% reached 100 level!"
+        - "broadcast §d%player% reached level 100!"
         - "eco give %player% 20000"
-        - "kit give %player% master"
-        - "tp %player% spawn_vip"
+        - "give %player% netherite_ingot 1"
 
-# Plugin messages
+# Rewards System
+rewards:
+  # Enable random rewards system
+  enabled: true
+
+  # Chance to receive an extra random reward upon leveling up (0.0 - 1.0)
+  # 0.3 = 30% chance
+  chance: 0.3
+
+  # List of possible random commands
+  randomRewards:
+    - "eco give %player% 50"
+    - "give %player% diamond 1"
+    - "give %player% emerald 3"
+    - "xp give %player% 100"
+
+  # Milestone rewards (guaranteed rewards at specific levels)
+  # These run IN ADDITION to the standard level commands
+  milestones:
+    5:
+      - "give %player% iron_ingot 10"
+      - "msg %player% §7You reached a small milestone!"
+    25:
+      - "give %player% gold_ingot 10"
+      - "msg %player% §eQuarter of a century!"
+
+# Plugin messages (English)
 message:
   # Message when a player levels up
   rankup: "§a§l✓ Congratulations %player%! You reached level %rank%!"
-
-  # Template for /autolevelsup remind command
-  template: "§7▸ Current level: §e%current_rank%§7 | Next level in: §e%time_remaining% §7(§e%progress%§7)"
-
-  # Welcome message (if enabled)
-  welcome: "§7Welcome §e%player%§7! You are at level §e%current_rank%§7. Time for next: §e%time_remaining%"
-
-  # Message when max level is reached
-  maxLevel: "§a§l✓ Congratulations! You reached the maximum level!"
 
   # Error messages
   error:
@@ -147,41 +141,3 @@ message:
     playerNotFound: "§cPlayer not found or not online."
     invalidNumber: "§cInvalid numeric value."
     configError: "§cError in plugin configuration."
-
-# Advanced settings
-advanced:
-  # Use precise playtime (milliseconds) instead of minutes
-  preciseTime: true
-
-  # Maximum number of consecutive rankups per check
-  maxRankupsPerCheck: 3
-
-  # Save data when a player leaves the server
-  saveOnQuit: true
-
-  # Check rankups for offline players too (not recommended)
-  checkOfflinePlayers: false
-
-# Random rewards system
-rewards:
-  # Enable random rewards system
-  enabled: true
-
-  # Chance to receive extra reward (0.0-1.0)
-  chance: 0.3
-
-  # Random rewards that can be given
-  randomRewards:
-    - "eco give %player% 100"
-    - "give %player% diamond 1"
-    - "give %player% emerald 3"
-    - "xp give %player% 100"
-
-  # Special rewards for milestones
-  milestones:
-    3:
-      - "give %player% iron_ingot 32"
-      - "broadcast §7%player% completed the first milestone!"
-    7:
-      - "give %player% diamond 5"
-      - "broadcast §7%player% reached an important milestone!"
